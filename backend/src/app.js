@@ -13,20 +13,8 @@ const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.MONGO_USERNAM
 mongoose_1.default.connect(mongoUri)
     .then(() => {
     console.log('Connected to MongoDB');
-    console.log(`${process.env.MONGO_URI}`);
-    console.log(`${process.env.MONGO_USERNAME}`);
-    console.log(`${process.env.MONGO_PASSWORD}`);
-    console.log(`${process.env.MONGO_HOST}`);
-    console.log(`${process.env.MONGO_PORT}`);
-    console.log('#########');
 })
     .catch(err => {
-    console.log(`${process.env.MONGO_URI}`);
-    console.log(`${process.env.MONGO_USERNAME}`);
-    console.log(`${process.env.MONGO_PASSWORD}`);
-    console.log(`${process.env.MONGO_HOST}`);
-    console.log(`${process.env.MONGO_PORT}`);
-    console.log('#########');
     console.error(`Error connecting to MongoDB ${mongoUri}`, err);
 });
 app.get('/', (req, res) => {
