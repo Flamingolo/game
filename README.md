@@ -3,6 +3,9 @@
 
 # backend
 ```bash
+# Mongo
+docker compose up -d
+
 # Install dependencies
 npm install
 
