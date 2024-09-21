@@ -1,11 +1,16 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import {createPredefinedLevels} from './service/levelService';
+import characterRouter from './router/characterRouter';
 
-dotenv.config(); // Load environment variables from .env
+dotenv.config();
 
 const app = express();
 const port = 3000;
+app.use(express.json());
+
+app.use('/api', characterRouter);
 
 const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
 
@@ -23,4 +28,5 @@ app.get('/', (req: Request, res: Response) => {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
+  createPredefinedLevels();
 });
