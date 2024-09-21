@@ -18,6 +18,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "mongodb": "^6.9.0",
