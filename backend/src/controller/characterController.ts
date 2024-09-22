@@ -6,7 +6,16 @@ export const addCharacter = async (req: Request, res: Response) => {
 
   try {
     const character = await createCharacter(name);
-    res.status(201).json(character);
+    res.status(201).json({
+      id: character.id,
+      name: character.name,
+      levelId: character.levelId,
+      progress: character.progress,
+      stats: character.stats,
+      gold: character.gold,
+      resource: character.resource,
+      unspentTalentPoints: character.unspentTalentPoints,
+    });
   } catch (error) {
     res.status(500).json({ error: 'Failed to create character', message: error.message });
   }
