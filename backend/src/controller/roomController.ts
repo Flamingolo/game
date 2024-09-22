@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRoomById, getAllRoomsByDungeonIdAndCharacterId } from '../service/roomService';
-import { getMobById } from '../service/mobService';
+import mobServiceInstance from '../service/mobService';
 import { createEncounter } from '../service/encounterService';
 
 export const fetchRoomById = async (req: Request, res: Response) => {
@@ -35,7 +35,7 @@ export const enterRoom = async (req: Request, res: Response) => {
     }
 
     if (room.mobId) {
-      const mob = await getMobById(room.mobId.toString());
+      const mob = await mobServiceInstance.getMobById(room.mobId.toString());
       if (!mob) {
         return res.status(404).json({ error: 'Mob not found' });
       }
