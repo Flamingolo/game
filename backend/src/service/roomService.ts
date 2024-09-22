@@ -35,3 +35,15 @@ export const saveRoom = async (roomData: any) => {
   await room.save();
   return room;
 };
+
+export const checkIfMobIsPresent = async (roomId: string) => {
+  try {
+    const room = await Room.findById(roomId);
+    if (!room) {
+      throw new Error('Room not found');
+    }
+    return room.mobId ? true : false;
+  } catch (error) {
+    throw new Error(`Error checking for mob in room: ${error.message}`);
+  }
+};
