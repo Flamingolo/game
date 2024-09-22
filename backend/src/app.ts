@@ -9,6 +9,8 @@ import ItemService from './service/itemService';
 import userRouter from './router/userRouter';
 import { saveGeneratedMobsToDatabase } from './service/mobService';
 import mobRouter from './router/mobRouter';
+import dungeonRouter from './router/dungeonRouter';
+import { saveGeneratedDungeonsToDatabase } from './service/dungeonService';
 
 dotenv.config();
 
@@ -20,6 +22,7 @@ app.use('/api', characterRouter);
 app.use('/api', itemouter);
 app.use('/api', userRouter);
 app.use('/api', mobRouter);
+app.use('/api', dungeonRouter);
 
 const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
 
@@ -30,6 +33,7 @@ mongoose.connect(mongoUri)
     createPredefinedLevels();
     ItemService.generateRandomItems();
     saveGeneratedMobsToDatabase();
+    saveGeneratedDungeonsToDatabase();
   })
   .catch(err => {
     console.error(`Error connecting to MongoDB ${mongoUri}`, err);
