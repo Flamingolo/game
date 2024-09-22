@@ -27,7 +27,6 @@ export const createCharacter = async (name: string) => {
   };
 
   const newCharacter = new Character({
-    id: Date.now(),
     name: name,
     levelId: levelOne.id,
     progress: defaultProgress,

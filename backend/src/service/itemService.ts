@@ -1,11 +1,11 @@
 import Item from '../model/Item';
+import mongoose from 'mongoose';
 
 const generateRandomItem = (id: number): any => {
   const itemTypes: Array<'equipable' | 'consumable'> = ['equipable', 'consumable'];
   const randomType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
   
   return {
-    id,
     name: `Random Item ${id}`,
     dropChance: Math.floor(Math.random() * 100),
     value: Math.floor(Math.random() * 200),
@@ -26,9 +26,9 @@ class ItemService {
     }
   }
 
-  static getItem(id: number) {
+  static async getItem(id: string) {
     try {
-      const item = Item.findOne({ id });
+      const item = await Item.findById(new mongoose.Types.ObjectId(id));
       if (!item) {
         throw new Error('Item not found');
       }
