@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import Dungeon from '../model/Dungeon';
 import dungeonServiceInstance from '../service/dungeonService';
-import * as roomService from '../service/roomService';
+import roomServiceInstance from '../service/roomService';
 import mobServiceInstance from '../service/mobService';
-import * as locationService from '../service/locationService';
+import locationServiceInstance from '../service/locationService';
 import itemServiceInstance from '../service/itemService';
 
 export const listAllDungeons = async (req: Request, res: Response) => {
@@ -39,7 +39,7 @@ export const enterDungeon = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Dungeon not found' });
     }
 
-    const rooms = await roomService.generateRooms(dungeon.roomAmount);
+    const rooms = await roomServiceInstance.generateRooms(dungeon.roomAmount);
     const roomIds = [];
 
     for (const room of rooms) {
@@ -53,11 +53,11 @@ export const enterDungeon = async (req: Request, res: Response) => {
         itemId: randomItem ? randomItem._id : null,
       };
 
-      const savedRoom = await roomService.saveRoom(roomData);
+      const savedRoom = await roomServiceInstance.saveRoom(roomData);
       roomIds.push(savedRoom._id);
     }
 
-    await locationService.updateCharacterLocation(characterId, dungeonId);
+    await locationServiceInstance.updateCharacterLocation(characterId, dungeonId);
 
     res.status(200).json({ roomIds });
   } catch (error) {

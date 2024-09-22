@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRoomById, getAllRoomsByDungeonIdAndCharacterId } from '../service/roomService';
+import roomServiceInstance from '../service/roomService';
 import mobServiceInstance from '../service/mobService';
 import { createEncounter } from '../service/encounterService';
 
@@ -7,7 +7,7 @@ export const fetchRoomById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const room = await getRoomById(id);
+    const room = await roomServiceInstance.getRoomById(id);
     res.status(200).json(room);
   } catch (error) {
     res.status(404).json({ error: 'Room not found', message: error.message });
@@ -18,7 +18,7 @@ export const fetchRoomsByDungeonIdAndCharacterId = async (req: Request, res: Res
   const { dungeonId, characterId } = req.params;
 
   try {
-    const rooms = await getAllRoomsByDungeonIdAndCharacterId(dungeonId, characterId);
+    const rooms = await roomServiceInstance.getAllRoomsByDungeonIdAndCharacterId(dungeonId, characterId);
     res.status(200).json(rooms);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch rooms', message: error.message });
@@ -29,7 +29,7 @@ export const enterRoom = async (req: Request, res: Response) => {
   const { roomId, characterId } = req.body;
 
   try {
-    const room = await getRoomById(roomId);
+    const room = await roomServiceInstance.getRoomById(roomId);
     if (!room) {
       return res.status(404).json({ error: 'Room not found' });
     }
