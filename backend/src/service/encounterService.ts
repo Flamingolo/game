@@ -11,3 +11,13 @@ export const getEncounterById = async (id: string) => {
     throw new Error(`Error retrieving encounter: ${error.message}`);
   }
 };
+
+export const createEncounter = async (encounterData: any) => {
+  try {
+    const encounter = new Encounter(encounterData);
+    await encounter.save();
+    return encounter;
+  } catch (error) {
+    throw new Error(`Error creating encounter: ${error.message}`);
+  }
+};
