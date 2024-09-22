@@ -1,16 +1,16 @@
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import {createPredefinedLevels} from './service/levelService';
+import levelServiceInstance from './service/levelService';
 import characterRouter from './router/characterRouter';
 import itemouter from './router/itemRouter';
 import { clearDatabase } from './utility/dbHelper';
-import ItemService from './service/itemService';
+import itemServiceInstance from './service/itemService';
 import userRouter from './router/userRouter';
-import { saveGeneratedMobsToDatabase } from './service/mobService';
+import mobServiceInstance from './service/mobService';
 import mobRouter from './router/mobRouter';
 import dungeonRouter from './router/dungeonRouter';
-import { saveGeneratedDungeonsToDatabase } from './service/dungeonService';
+import dungeonServiceInstance from './service/dungeonService';
 import inventoryRouter from './router/inventoryRouter';
 import roomRouter from './router/roomRouter';
 import encounterRouter from './router/encounterRouter';
@@ -38,10 +38,10 @@ mongoose.connect(mongoUri)
   .then(async () => {
     console.log('Connected to MongoDB');
     await clearDatabase();
-    createPredefinedLevels();
-    ItemService.generateRandomItems();
-    saveGeneratedMobsToDatabase();
-    saveGeneratedDungeonsToDatabase();
+    levelServiceInstance.createPredefinedLevels();
+    itemServiceInstance.generateRandomItems();
+    mobServiceInstance.saveGeneratedMobsToDatabase();
+    dungeonServiceInstance.saveGeneratedDungeonsToDatabase();
   })
   .catch(err => {
     console.error(`Error connecting to MongoDB ${mongoUri}`, err);
