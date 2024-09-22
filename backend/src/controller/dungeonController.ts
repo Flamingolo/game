@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import Dungeon from '../model/Dungeon';
-import * as dungeonService from '../service/dungeonService';
+import dungeonServiceInstance from '../service/dungeonService';
 import * as roomService from '../service/roomService';
-import * as mobService from '../service/mobService';
+import mobServiceInstance from '../service/mobService';
 import * as locationService from '../service/locationService';
-import ItemService from '../service/itemService';
+import itemServiceInstance from '../service/itemService';
 
 export const listAllDungeons = async (req: Request, res: Response) => {
   try {
@@ -34,7 +34,7 @@ export const enterDungeon = async (req: Request, res: Response) => {
   const { dungeonId, characterId } = req.body;
 
   try {
-    const dungeon = await dungeonService.getDungeonById(dungeonId);
+    const dungeon = await dungeonServiceInstance.getDungeonById(dungeonId);
     if (!dungeon) {
       return res.status(404).json({ error: 'Dungeon not found' });
     }
@@ -43,8 +43,8 @@ export const enterDungeon = async (req: Request, res: Response) => {
     const roomIds = [];
 
     for (const room of rooms) {
-      const randomItem = await ItemService.getRandomItem();
-      const randomMob = await mobService.getRandomMob();
+      const randomItem = await itemServiceInstance.getRandomItem();
+      const randomMob = await mobServiceInstance.getRandomMob();
 
       const roomData = {
         characterId,
