@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import Dungeon from '../model/Dungeon';
 import * as dungeonService from '../service/dungeonService';
 import * as roomService from '../service/roomService';
-import * as itemService from '../service/itemService';
 import * as mobService from '../service/mobService';
 import * as locationService from '../service/locationService';
+import ItemService from '../service/itemService';
 
 export const listAllDungeons = async (req: Request, res: Response) => {
   try {
@@ -43,7 +43,7 @@ export const enterDungeon = async (req: Request, res: Response) => {
     const roomIds = [];
 
     for (const room of rooms) {
-      const randomItem = await itemService.getRandomItem();
+      const randomItem = await ItemService.getRandomItem();
       const randomMob = await mobService.getRandomMob();
 
       const roomData = {
