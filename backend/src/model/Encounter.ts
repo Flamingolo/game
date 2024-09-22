@@ -6,6 +6,8 @@ interface Encounter extends Document {
   MobId: mongoose.Schema.Types.ObjectId;
   MobRemainingHealth: number;
   MobRemainingMana: number;
+  CharacterRemainingHealth: number;
+  CharacterRemainingMana: number;
 }
 
 const EncounterSchema: Schema = new Schema({
@@ -14,6 +16,8 @@ const EncounterSchema: Schema = new Schema({
   MobId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Mob' },
   MobRemainingHealth: { type: Number, required: true },
   MobRemainingMana: { type: Number, required: true },
+  CharacterRemainingHealth: { type: Number, required: true },
+  CharacterRemainingMana: { type: Number, required: true },
 });
 
 const Encounter = mongoose.model<Encounter>('Encounter', EncounterSchema);
