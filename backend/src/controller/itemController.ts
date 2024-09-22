@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import ItemService from '../service/itemService';
+import itemServiceInstance from '../service/itemService';
 
 class ItemController {
-  constructor(private itemService: ItemService) {}
+  constructor(private itemService: typeof itemServiceInstance) {}
 
   async getItem(req: Request, res: Response) {
     const itemId = req.params.id;
@@ -15,5 +15,5 @@ class ItemController {
   }
 }
 
-const itemController = new ItemController(new ItemService());
+const itemController = new ItemController(itemServiceInstance);
 export default itemController;
