@@ -20,6 +20,8 @@ interface Stats {
     dexterity: number;
     intellect: number;
     luck: number;
+    baseDamage: number;
+    armor: number;
 }
 
 interface Resource {
@@ -39,6 +41,8 @@ const StatsSchema: Schema = new Schema({
   dexterity: { type: Number, required: true },
   intellect: { type: Number, required: true },
   luck: { type: Number, required: true },
+  baseDamage: { type: Number, required: true },
+  armor: { type: Number, required: true },
 });
 
 const ResourceSchema: Schema = new Schema({

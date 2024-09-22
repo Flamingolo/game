@@ -28,7 +28,12 @@ class MobService {
       resource: {
         health: Math.floor(Math.random() * 100) + 50,
         mana: Math.floor(Math.random() * 50) + 20
-      }
+      },
+      strength: levelID * 1,
+      dexterity: levelID * 1,
+      intellect: levelID * 1,
+      baseDamage: levelID * 1,
+      armor: levelID * 1
     };
   }
 

@@ -12,6 +12,8 @@ export const createCharacter = async (name: string) => {
     dexterity: 1,
     intellect: 1,
     luck: 1,
+    baseDamage: 10,
+    armor: 1,
   };
 
   const defaultProgress = {
