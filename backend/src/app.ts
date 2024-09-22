@@ -14,6 +14,7 @@ import { saveGeneratedDungeonsToDatabase } from './service/dungeonService';
 import inventoryRouter from './router/inventoryRouter';
 import roomRouter from './router/roomRouter';
 import encounterRouter from './router/encounterRouter';
+import locationRouter from './router/locationRouter';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use('/api', dungeonRouter);
 app.use('/api', inventoryRouter);
 app.use('/api', roomRouter);
 app.use('/api', encounterRouter);
+app.use('/api', locationRouter);
 
 const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
 
