@@ -7,6 +7,7 @@ import itemouter from './router/itemRouter';
 import { clearDatabase } from './utility/dbHelper';
 import ItemService from './service/itemService';
 import userRouter from './router/userRouter';
+import { saveGeneratedMobsToDatabase } from './service/mobService';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ mongoose.connect(mongoUri)
     await clearDatabase();
     createPredefinedLevels();
     ItemService.generateRandomItems();
+    saveGeneratedMobsToDatabase();
   })
   .catch(err => {
     console.error(`Error connecting to MongoDB ${mongoUri}`, err);
