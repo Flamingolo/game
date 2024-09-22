@@ -17,6 +17,11 @@ interface Mob extends Document {
   levelID: number;
   goldDrop: GoldDrop;
   resource: Resource;
+  strength: number;
+  dexterity: number;
+  intellect: number;
+  baseDamage: number;
+  armor: number;
 }
 
 const GoldDropSchema: Schema = new Schema({
@@ -36,6 +41,11 @@ const MobSchema: Schema = new Schema({
   levelID: { type: Number, required: true },
   goldDrop: { type: GoldDropSchema, required: true },
   resource: { type: ResourceSchema, required: true },
+  strength: { type: Number, required: true },
+  dexterity: { type: Number, required: true },
+  intellect: { type: Number, required: true },
+  baseDamage: { type: Number, required: true },
+  armor: { type: Number, required: true },
 });
 
 const Mob = mongoose.model<Mob>('Mob', MobSchema);
