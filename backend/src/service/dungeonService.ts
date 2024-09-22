@@ -27,4 +27,16 @@ const saveGeneratedDungeonsToDatabase = async () => {
   }
 };
 
-export { generateRandomDungeons, saveGeneratedDungeonsToDatabase };
+const getDungeonById = async (dungeonId: string) => {
+  try {
+    const dungeon = await Dungeon.findById(dungeonId);
+    if (!dungeon) {
+      throw new Error('Dungeon not found');
+    }
+    return dungeon;
+  } catch (error) {
+    throw new Error(`Error retrieving dungeon: ${error.message}`);
+  }
+};
+
+export { generateRandomDungeons, saveGeneratedDungeonsToDatabase, getDungeonById };

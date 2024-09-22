@@ -48,4 +48,16 @@ const saveGeneratedMobsToDatabase = async () => {
   }
 };
 
-export { generateRandomNamedMobs, saveGeneratedMobsToDatabase };
+const getRandomMob = async () => {
+  try {
+    const count = await Mob.countDocuments();
+    const random = Math.floor(Math.random() * count);
+    const mob = await Mob.findOne().skip(random);
+    return mob;
+  } catch (error) {
+    console.error(`Error retrieving random mob: ${error.message}`);
+    throw error;
+  }
+};
+
+export { generateRandomNamedMobs, saveGeneratedMobsToDatabase, getRandomMob };
