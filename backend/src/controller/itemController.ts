@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
-import ItemService from '../service/itemService';
+import itemServiceInstance from '../service/itemService';
 
 class ItemController {
-  static async getItem(req: Request, res: Response) {
+  constructor(private itemService: typeof itemServiceInstance) {}
+
+  async getItem(req: Request, res: Response) {
     const itemId = req.params.id;
     try {
-      const item = await ItemService.getItem(itemId);
+      const item = await this.itemService.getItem(itemId);
       res.status(200).json(item);
     } catch (error) {
       res.status(404).json({ message: error.message });
@@ -13,4 +15,5 @@ class ItemController {
   }
 }
 
-export default ItemController;
+const itemController = new ItemController(itemServiceInstance);
+export default itemController;

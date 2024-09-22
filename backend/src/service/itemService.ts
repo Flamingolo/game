@@ -15,7 +15,7 @@ const generateRandomItem = (id: number): any => {
 
 class ItemService {
 
-  static generateRandomItems() {
+  generateRandomItems() {
     const items = Array.from({ length: 20 }, (_, index) => generateRandomItem(index + 1));
     
     try {
@@ -26,7 +26,7 @@ class ItemService {
     }
   }
 
-  static async getItem(id: string) {
+  async getItem(id: string) {
     try {
       const item = await Item.findById(new mongoose.Types.ObjectId(id));
       if (!item) {
@@ -39,7 +39,7 @@ class ItemService {
     }
   }
 
-  static async getRandomItem() {
+  async getRandomItem() {
     try {
       const count = await Item.countDocuments();
       const random = Math.floor(Math.random() * count);
@@ -52,4 +52,5 @@ class ItemService {
   }
 }
 
-export default ItemService;
+const itemServiceInstance = new ItemService();
+export default itemServiceInstance;
