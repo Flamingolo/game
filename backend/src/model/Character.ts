@@ -7,6 +7,8 @@ interface Character extends Document {
   progress: Progress;
   stats: Stats;
   gold: number;
+  resource: Resource;
+  unspentTalentPoints: number;
 }
 
 interface Progress {
@@ -21,6 +23,13 @@ interface Stats {
     luck: number;
 }
 
+interface Resource {
+  maxHealth: number;
+  maxMana: number;
+  currentHealth: number;
+  currentMana: number;
+}
+
 const ProgressSchema: Schema = new Schema({
   experience: { type: Number, required: true },
   level: { type: Number, required: true },
@@ -33,6 +42,13 @@ const StatsSchema: Schema = new Schema({
   luck: { type: Number, required: true },
 });
 
+const ResourceSchema: Schema = new Schema({
+  maxHealth: { type: Number, required: true },
+  maxMana: { type: Number, required: true },
+  currentHealth: { type: Number, required: true },
+  currentMana: { type: Number, required: true },
+});
+
 const CharacterSchema: Schema = new Schema({
   id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
@@ -40,6 +56,8 @@ const CharacterSchema: Schema = new Schema({
   progress: { type: ProgressSchema, required: true },
   stats: { type: StatsSchema, required: true },
   gold: { type: Number, required: true, default: 0 },
+  resource: { type: ResourceSchema, required: true },
+  unspentTalentPoints: { type: Number, required: true, default: 1 },
 });
 
 const Character = mongoose.model<Character>('Character', CharacterSchema);

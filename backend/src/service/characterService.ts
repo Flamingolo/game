@@ -19,6 +19,13 @@ export const createCharacter = async (name: string) => {
     level: 1,
   };
 
+  const defaultResource = {
+    maxHealth: 100,
+    maxMana: 50,
+    currentHealth: 100,
+    currentMana: 50,
+  };
+
   const newCharacter = new Character({
     id: Date.now(),
     name: name,
@@ -26,6 +33,8 @@ export const createCharacter = async (name: string) => {
     progress: defaultProgress,
     stats: defaultStats,
     gold: 0,
+    resource: defaultResource,
+    unspentTalentPoints: 1,
   });
 
   await newCharacter.save();
