@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import roomServiceInstance from '../service/roomService';
 import mobServiceInstance from '../service/mobService';
-import { createEncounter } from '../service/encounterService';
+import encounterServiceInstance from '../service/encounterService';
+import characterServiceInstance from '../service/characterService';
 
 export const fetchRoomById = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -39,16 +40,19 @@ export const enterRoom = async (req: Request, res: Response) => {
       if (!mob) {
         return res.status(404).json({ error: 'Mob not found' });
       }
-
+      
+      const character = await characterServiceInstance.getCharacter(characterId);
       const encounterData = {
         RoomId: room._id,
         CharacterId: characterId,
         MobId: mob._id,
         MobRemainingHealth: mob.resource.health,
         MobRemainingMana: mob.resource.mana,
+        CharacterRemainingHealth: character.resource.currentHealth,
+        CharacterRemainingMana: character.resource.currentMana,
       };
 
-      const encounter = await createEncounter(encounterData);
+      const encounter = await encounterServiceInstance.createEncounter(encounterData);
       return res.status(200).json({ encounterId: encounter._id });
     } else {
       return res.status(200).json({ itemId: room.itemId });

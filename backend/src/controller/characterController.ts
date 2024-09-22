@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { createCharacter, getCharacter } from '../service/characterService';
+import characterceInstance from '../service/characterService';
 
 export const addCharacter = async (req: Request, res: Response) => {
   const { name } = req.body;
 
   try {
-    const character = await createCharacter(name);
+    const character = await characterceInstance.createCharacter(name);
     res.status(201).json({
       id: character.id,
       name: character.name,
@@ -25,7 +25,7 @@ export const fetchCharacter = async (req: Request, res: Response) => {
     const { id } = req.params;
   
     try {
-      const character = await getCharacter(id);
+      const character = await characterceInstance.getCharacter(id);
       res.status(200).json(character);
     } catch (error) {
       res.status(404).json({ error: 'Character not found', message: error.message });
