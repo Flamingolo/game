@@ -1,6 +1,7 @@
 import Dungeon from '../model/Dungeon';
 
 class DungeonService {
+
   generateRandomDungeon(id: number): any {
     const roomAmount = Math.floor(Math.random() * 3) + 3;
     const experience = Math.floor(Math.random() * 191) + 10;

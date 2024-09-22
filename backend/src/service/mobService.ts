@@ -1,6 +1,4 @@
-import { ObjectId } from 'mongodb';
 import Mob from '../model/Mob';
-import mongoose from 'mongoose';
 
 const lowLevelMobNames = [
   'Goblin', 'Goblin Scout', 'Goblin Shaman', 'Goblin Grunt', 'Hobgoblin',
