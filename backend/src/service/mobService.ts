@@ -1,4 +1,6 @@
+import { ObjectId } from 'mongodb';
 import Mob from '../model/Mob';
+import mongoose from 'mongoose';
 
 const lowLevelMobNames = [
   'Goblin', 'Goblin Scout', 'Goblin Shaman', 'Goblin Grunt', 'Hobgoblin',
@@ -60,4 +62,16 @@ const getRandomMob = async () => {
   }
 };
 
-export { generateRandomNamedMobs, saveGeneratedMobsToDatabase, getRandomMob };
+const getMobById = async (id: string) => {
+  try {
+    const mob = await Mob.findById(id);
+    if (!mob) {
+      throw new Error('Mob not found');
+    }
+    return mob;
+  } catch (error) {
+    console.error(`Error retrieving mob by ID: ${error.message}`);
+    throw error;
+  }
+};
+export { generateRandomNamedMobs, saveGeneratedMobsToDatabase, getRandomMob, getMobById };

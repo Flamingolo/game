@@ -35,7 +35,7 @@ export const enterRoom = async (req: Request, res: Response) => {
     }
 
     if (room.mobId) {
-      const mob = await getMobById(room.mobId);
+      const mob = await getMobById(room.mobId.toString());
       if (!mob) {
         return res.status(404).json({ error: 'Mob not found' });
       }
