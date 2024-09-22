@@ -38,6 +38,18 @@ class ItemService {
       throw error;
     }
   }
+
+  static async getRandomItem() {
+    try {
+      const count = await Item.countDocuments();
+      const random = Math.floor(Math.random() * count);
+      const item = await Item.findOne().skip(random);
+      return item;
+    } catch (error) {
+      console.error(`Error retrieving random item: ${error.message}`);
+      throw error;
+    }
+  }
 }
 
 export default ItemService;

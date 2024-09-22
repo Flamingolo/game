@@ -20,3 +20,18 @@ export const getAllRoomsByDungeonIdAndCharacterId = async (dungeonId: string, ch
     throw new Error(`Error retrieving rooms: ${error.message}`);
   }
 };
+
+export const generateRooms = async (roomAmount: number) => {
+  const rooms = [];
+  for (let i = 0; i < roomAmount; i++) {
+    const room = new Room();
+    rooms.push(room);
+  }
+  return rooms;
+};
+
+export const saveRoom = async (roomData: any) => {
+  const room = new Room(roomData);
+  await room.save();
+  return room;
+};
