@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface Character extends Document {
-  id: number;
   name: string;
   levelId: number;
   progress: Progress;
@@ -50,7 +49,6 @@ const ResourceSchema: Schema = new Schema({
 });
 
 const CharacterSchema: Schema = new Schema({
-  id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
   levelId: { type: Number, required: true },
   progress: { type: ProgressSchema, required: true },
