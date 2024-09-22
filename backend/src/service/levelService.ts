@@ -2,7 +2,8 @@ import Level from '../model/Level';
 
 const LEVELS_COUNT = 20;
 
-export const createPredefinedLevels = async () => {
+class LevelService {
+  async createPredefinedLevels() {
     const levels = [];
   
     for (let i = 1; i <= LEVELS_COUNT; i++) {
@@ -14,4 +15,8 @@ export const createPredefinedLevels = async () => {
   
     await Level.insertMany(levels);
     return levels;
-};
+  }
+}
+
+const levelServiceInstance = new LevelService();
+export default levelServiceInstance;
