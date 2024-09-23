@@ -19,6 +19,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger';
 import jwt from 'express-jwt';
 import jsonwebtoken from 'jsonwebtoken';
+import ResourceRegenerationJob from './jobs/ResourceRegenerationJob';
 
 dotenv.config();
 
@@ -55,6 +56,9 @@ mongoose.connect(mongoUri)
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello from TypeScript!');
 });
+
+const resourceRegenerationJob = new ResourceRegenerationJob();
+resourceRegenerationJob.run();
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

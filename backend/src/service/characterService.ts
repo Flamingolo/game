@@ -56,6 +56,28 @@ class CharacterService {
       throw new Error(`Error retrieving character: ${error.message}`);
     }
   };
+
+  async regenerateResources() {
+    try {
+      await Character.updateMany(
+        { 'resource.currentHealth': { $lt: 100 }, 'resource.currentMana': { $lt: 50 } },
+        [
+          {
+            $set: {
+              'resource.currentHealth': {
+                $min: [{ $add: ['$resource.currentHealth', 1] }, '$resource.maxHealth']
+              },
+              'resource.currentMana': {
+                $min: [{ $add: ['$resource.currentMana', 1] }, '$resource.maxMana']
+              }
+            }
+          }
+        ]
+      );
+    } catch (error) {
+      throw new Error(`Error regenerating resources: ${error.message}`);
+    }
+  }
 }
 
 const characterServiceInstance = new CharacterService();
