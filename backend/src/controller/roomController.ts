@@ -27,10 +27,10 @@ export const fetchRoomsByDungeonIdAndCharacterId = async (req: Request, res: Res
 };
 
 export const enterRoom = async (req: Request, res: Response) => {
-  const { roomId, characterId } = req.body;
+  const { id, characterId } = req.body;
 
   try {
-    const room = await roomServiceInstance.getRoomById(roomId);
+    const room = await roomServiceInstance.getRoomById(id);
     if (!room) {
       return res.status(404).json({ error: 'Room not found' });
     }

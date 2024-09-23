@@ -31,10 +31,10 @@ export const getDungeonById = async (req: Request, res: Response) => {
 };
 
 export const enterDungeon = async (req: Request, res: Response) => {
-  const { dungeonId, characterId } = req.body;
+  const { id, characterId } = req.body;
 
   try {
-    const dungeon = await dungeonServiceInstance.getDungeonById(dungeonId);
+    const dungeon = await dungeonServiceInstance.getDungeonById(id);
     if (!dungeon) {
       return res.status(404).json({ error: 'Dungeon not found' });
     }
@@ -48,7 +48,7 @@ export const enterDungeon = async (req: Request, res: Response) => {
 
       const roomData = {
         characterId,
-        dungeonId,
+        id,
         mobId: randomMob ? randomMob._id : null,
         itemId: randomItem ? randomItem._id : null,
       };
@@ -57,7 +57,7 @@ export const enterDungeon = async (req: Request, res: Response) => {
       roomIds.push(savedRoom._id);
     }
 
-    await locationServiceInstance.updateCharacterLocation(characterId, dungeonId);
+    await locationServiceInstance.updateCharacterLocation(characterId, id);
 
     res.status(200).json({ roomIds });
   } catch (error) {

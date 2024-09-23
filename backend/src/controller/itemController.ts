@@ -5,9 +5,9 @@ class ItemController {
     constructor(private itemService: typeof itemServiceInstance) { }
 
     async getItem(req: Request, res: Response) {
-        const itemId = req.params.id;
+        const id = req.params.id;
         try {
-            const item = await this.itemService.getItem(itemId);
+            const item = await this.itemService.getItem(id);
             res.status(200).json(item);
         } catch (error) {
             res.status(404).json({ message: error.message });

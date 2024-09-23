@@ -13,11 +13,11 @@ export const fetchEncounterById = async (req: Request, res: Response) => {
 };
 
 export const performEncounterAction = async (req: Request, res: Response) => {
-  const { encounterId, action } = req.body;
+  const { encounterId: id, action } = req.body;
 
   try {
     if (action.type === 'attack') {
-      const result = await encounterServiceInstance.performEncounterAction(encounterId, action);
+      const result = await encounterServiceInstance.performEncounterAction(id, action);
       res.status(200).json(result);
     } else if (action.type === 'defend' || action.type === 'run') {
       throw new Error('Action not implemented');
