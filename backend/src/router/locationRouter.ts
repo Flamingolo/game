@@ -3,6 +3,6 @@ import { fetchLocationByCharacterId } from '../controller/locationController';
 
 const router = Router();
 
-router.get('/location/:characterId', fetchLocationByCharacterId);
+router.get('/locations/:characterId', fetchLocationByCharacterId);
 
 export default router;

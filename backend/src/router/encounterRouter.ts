@@ -3,7 +3,7 @@ import { fetchEncounterById, performEncounterAction } from '../controller/encoun
 
 const router = Router();
 
-router.get('/encounter/:id', fetchEncounterById);
-router.post('/encounter/action', performEncounterAction);
+router.get('/encounters/:id', fetchEncounterById);
+router.post('/encounters/action', performEncounterAction);
 
 export default router;

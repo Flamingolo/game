@@ -3,8 +3,8 @@ import { fetchRoomById, fetchRoomsByDungeonIdAndCharacterId, enterRoom } from '.
 
 const router = Router();
 
-router.get('/room/:id', fetchRoomById);
+router.get('/rooms/:id', fetchRoomById);
 router.get('/rooms/:dungeonId/:characterId', fetchRoomsByDungeonIdAndCharacterId);
-router.post('/room/enter', enterRoom);
+router.post('/rooms/enter', enterRoom);
 
 export default router;

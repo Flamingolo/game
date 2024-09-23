@@ -3,7 +3,7 @@ import { fetchCharacter, addCharacter } from '../controller/characterController'
 
 const router = Router();
 
-router.get('/character/:id', fetchCharacter);
-router.post('/character', addCharacter);
+router.get('/characters/:id', fetchCharacter);
+router.post('/characters', addCharacter);
 
 export default router;

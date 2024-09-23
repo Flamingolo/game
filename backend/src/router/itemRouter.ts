@@ -3,6 +3,6 @@ import ItemRouter from '../controller/itemController';
 
 const router = Router();
 
-router.get('/item/:id', ItemRouter.getItem);
+router.get('/items/:id', ItemRouter.getItem);
 
 export default router;
