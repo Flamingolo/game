@@ -13,7 +13,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
       return res.status(500).json({ error: 'Failed to authenticate token' });
     }
 
-    req.user = decoded;
+    (req as any).user = decoded;
     next();
   });
 };
