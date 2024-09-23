@@ -20,6 +20,7 @@ import swaggerSpec from './swagger';
 import jwt from 'express-jwt';
 import jsonwebtoken from 'jsonwebtoken';
 import ResourceRegenerationJob from './jobs/ResourceRegenerationJob';
+import jwtMiddleware from './utility/jwtMiddleware'; // P6628
 
 dotenv.config();
 
@@ -27,15 +28,15 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 
-app.use('/api', characterRouter);
-app.use('/api', itemouter);
+app.use('/api', jwtMiddleware, characterRouter); // P210a
+app.use('/api', jwtMiddleware, itemouter); // P210a
 app.use('/api', userRouter);
-app.use('/api', mobRouter);
-app.use('/api', dungeonRouter);
-app.use('/api', inventoryRouter);
-app.use('/api', roomRouter);
-app.use('/api', encounterRouter);
-app.use('/api', locationRouter);
+app.use('/api', jwtMiddleware, mobRouter); // P210a
+app.use('/api', jwtMiddleware, dungeonRouter); // P210a
+app.use('/api', jwtMiddleware, inventoryRouter); // P210a
+app.use('/api', jwtMiddleware, roomRouter); // P210a
+app.use('/api', jwtMiddleware, encounterRouter); // P210a
+app.use('/api', jwtMiddleware, locationRouter); // P210a
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;

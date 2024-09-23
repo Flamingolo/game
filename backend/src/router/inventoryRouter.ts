@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { fetchInventoryByCharacterId } from '../controller/inventoryController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -21,6 +22,6 @@ const router = Router();
  *       500:
  *         description: Failed to fetch inventory
  */
-router.get('/inventory/:characterId', fetchInventoryByCharacterId);
+router.get('/inventory/:characterId', jwtMiddleware, fetchInventoryByCharacterId);
 
 export default router;

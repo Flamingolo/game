@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ItemRouter from '../controller/itemController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -21,6 +22,6 @@ const router = Router();
  *       404:
  *         description: Item not found
  */
-router.get('/items/:id', ItemRouter.getItem);
+router.get('/items/:id', jwtMiddleware, ItemRouter.getItem);
 
 export default router;
