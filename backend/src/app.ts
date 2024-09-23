@@ -57,7 +57,6 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello from TypeScript!');
 });
 
-const ONE_MINUTE = 60 * 1000;
 const resourceRegenerationJob = new ResourceRegenerationJob();
 resourceRegenerationJob.run();
 
