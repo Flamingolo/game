@@ -1,7 +1,6 @@
 import { fetchAllMobs, fetchMobById } from '../controller/mobController';
 import Mob from '../model/Mob';
 import { Request, Response } from 'express';
-import { jest } from '@jest/globals';
 
 jest.mock('../model/Mob');
 
@@ -24,7 +23,7 @@ describe('mobController', () => {
       const mockMobs = [{ name: 'Goblin' }, { name: 'Troll' }];
       (Mob.find as jest.Mock).mockResolvedValue(mockMobs);
 
-      await fetchAllMobs(req as Request, res as Response, next);
+      await fetchAllMobs(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockMobs);
@@ -34,7 +33,7 @@ describe('mobController', () => {
       const errorMessage = 'Failed to fetch mobs';
       (Mob.find as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
-      await fetchAllMobs(req as Request, res as Response, next);
+      await fetchAllMobs(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Failed to fetch mobs', message: errorMessage });
@@ -47,7 +46,7 @@ describe('mobController', () => {
       (Mob.findById as jest.Mock).mockResolvedValue(mockMob);
       req = { params: { id: '1' } };
 
-      await fetchMobById(req as Request, res as Response, next);
+      await fetchMobById(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockMob);
@@ -57,7 +56,7 @@ describe('mobController', () => {
       (Mob.findById as jest.Mock).mockResolvedValue(null);
       req = { params: { id: '1' } };
 
-      await fetchMobById(req as Request, res as Response, next);
+      await fetchMobById(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ error: 'Mob not found' });
@@ -68,7 +67,7 @@ describe('mobController', () => {
       (Mob.findById as jest.Mock).mockRejectedValue(new Error(errorMessage));
       req = { params: { id: '1' } };
 
-      await fetchMobById(req as Request, res as Response, next);
+      await fetchMobById(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Failed to fetch mob', message: errorMessage });
