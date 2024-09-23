@@ -6,6 +6,7 @@ import roomServiceInstance from '../../src/service/roomService';
 import mobServiceInstance from '../../src/service/mobService';
 import locationServiceInstance from '../../src/service/locationService';
 import itemServiceInstance from '../../src/service/itemService';
+import Dungeon from '../../src/model/Dungeon';
 
 const app = express();
 app.use(express.json());
