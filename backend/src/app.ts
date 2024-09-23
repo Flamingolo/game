@@ -17,6 +17,8 @@ import encounterRouter from './router/encounterRouter';
 import locationRouter from './router/locationRouter';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger';
+import jwt from 'express-jwt';
+import jsonwebtoken from 'jsonwebtoken';
 
 dotenv.config();
 

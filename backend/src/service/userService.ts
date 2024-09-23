@@ -18,6 +18,20 @@ class UserService {
 
     return newUser;
   };
+
+  async authenticateUser(email: string, password: string) {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return null;
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return null;
+    }
+
+    return user;
+  };
 }
 
 const mobServiceInstance = new UserService();
