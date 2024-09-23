@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import locationServiceInstance from '../service/locationService';
+import { verifyToken } from '../utils/auth';
 
 export const fetchLocationByCharacterId = async (req: Request, res: Response) => {
   const { characterId } = req.params;

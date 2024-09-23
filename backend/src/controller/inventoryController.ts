@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import inventoryServiceInstance from '../service/inventoryService';
+import { verifyToken } from '../utils/auth';
 
 export const fetchInventoryByCharacterId = async (req: Request, res: Response) => {
   const { characterId } = req.params;

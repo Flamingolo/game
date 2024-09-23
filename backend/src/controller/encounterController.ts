@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import encounterServiceInstance from '../service/encounterService';
+import { verifyToken } from '../utils/auth';
 
 export const fetchEncounterById = async (req: Request, res: Response) => {
   const { id } = req.params;

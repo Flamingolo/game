@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import characterceInstance from '../service/characterService';
+import { verifyToken } from '../utils/auth';
 
 export const addCharacter = async (req: Request, res: Response) => {
   const { name } = req.body;

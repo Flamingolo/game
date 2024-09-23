@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Mob from '../model/Mob';
+import { verifyToken } from '../utils/auth';
 
 export const fetchAllMobs = async (req: Request, res: Response) => {
   try {

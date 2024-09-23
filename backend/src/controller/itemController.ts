@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import itemServiceInstance from '../service/itemService';
+import { verifyToken } from '../utils/auth';
 
 class ItemController {
     constructor(private itemService: typeof itemServiceInstance) { }

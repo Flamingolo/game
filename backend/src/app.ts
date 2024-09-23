@@ -20,6 +20,7 @@ import swaggerSpec from './swagger';
 import jwt from 'express-jwt';
 import jsonwebtoken from 'jsonwebtoken';
 import ResourceRegenerationJob from './jobs/ResourceRegenerationJob';
+import { verifyToken } from './utils/auth';
 
 dotenv.config();
 

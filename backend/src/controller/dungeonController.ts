@@ -5,6 +5,7 @@ import roomServiceInstance from '../service/roomService';
 import mobServiceInstance from '../service/mobService';
 import locationServiceInstance from '../service/locationService';
 import itemServiceInstance from '../service/itemService';
+import { verifyToken } from '../utils/auth';
 
 export const listAllDungeons = async (req: Request, res: Response) => {
   try {

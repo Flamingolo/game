@@ -3,6 +3,7 @@ import roomServiceInstance from '../service/roomService';
 import mobServiceInstance from '../service/mobService';
 import encounterServiceInstance from '../service/encounterService';
 import characterServiceInstance from '../service/characterService';
+import { verifyToken } from '../utils/auth';
 
 export const fetchRoomById = async (req: Request, res: Response) => {
   const { id } = req.params;
