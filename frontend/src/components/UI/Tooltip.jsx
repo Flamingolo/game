@@ -5,13 +5,13 @@ const Tooltip = ({ text, children }) => {
 
     return (
         <div
-            className="tooltip-container"
+            className="relative inline-block"
             onMouseEnter={() => setIsTooltipVisible(true)}
             onMouseLeave={() => setIsTooltipVisible(false)}
         >
             {children}
             {isTooltipVisible && (
-                <div className="tooltip-text">  {/* Define tooltip styles in separate CSS */}
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-full mt-2 bg-gray-700 text-white text-sm p-2 rounded shadow-lg z-50">
                     {text}
                 </div>
             )}

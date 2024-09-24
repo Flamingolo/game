@@ -5,46 +5,43 @@ import { towns, dungeons, mobs } from './dummyData';
 
 const Navbar = () => {
   return (
-    <nav className="navbar">  {/* Define navbar styles in separate CSS */}
-      <div className="navbar-container">
+    <nav className="bg-gray-800 text-white p-4">
+      <div className="flex flex-row justify-center space-x-4">
         
-        {/* Home Button */}
         <div>
-          <Button label="Home" onClick={() => console.log('Home clicked')} />
+          <Button label="Home" onClick={() => console.log('Home clicked')} className="bg-blue-500 hover:bg-blue-600" />
         </div>
 
-        {/* Dungeons Tooltip */}
-        <div className="tooltip-wrapper">
+        <div className="relative">
           <Tooltip
             text={dungeons.map((dungeon) => (
-              <div key={dungeon.id}>{dungeon.name}</div>
+              <div key={dungeon.id} className="p-1">{dungeon.name}</div>
             ))}
           >
-            <Button label="Dungeons" />
+            <Button label="Dungeons" className="bg-purple-500 hover:bg-purple-600" />
           </Tooltip>
         </div>
 
-        {/* Towns Tooltip */}
-        <div className="tooltip-wrapper">
+        <div className="relative">
           <Tooltip
             text={towns.map((town) => (
-              <div key={town.id}>{town.name}</div>
+              <div key={town.id} className="p-1">{town.name}</div>
             ))}
           >
-            <Button label="Towns" />
+            <Button label="Towns" className="bg-green-500 hover:bg-green-600" />
           </Tooltip>
         </div>
 
-        {/* Mobs Tooltip */}
-        <div className="tooltip-wrapper">
+        <div className="relative">
           <Tooltip
             text={mobs.map((mob) => (
-              <div key={mob.id}>{mob.name}</div>
+              <div key={mob.id} className="p-1">{mob.name}</div>
             ))}
           >
-            <Button label="Mobs" />
+            <Button label="Mobs" className="bg-red-500 hover:bg-red-600" />
           </Tooltip>
         </div>
+
       </div>
     </nav>
   );
