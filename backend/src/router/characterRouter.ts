@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { fetchCharacter, addCharacter } from '../controller/characterController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -21,7 +22,7 @@ const router = Router();
  *       404:
  *         description: Character not found
  */
-router.get('/characters/:id', fetchCharacter);
+router.get('/characters/:id', jwtMiddleware, fetchCharacter);
 
 /**
  * @swagger
@@ -43,6 +44,6 @@ router.get('/characters/:id', fetchCharacter);
  *       500:
  *         description: Failed to create character
  */
-router.post('/characters', addCharacter);
+router.post('/characters', jwtMiddleware, addCharacter);
 
 export default router;

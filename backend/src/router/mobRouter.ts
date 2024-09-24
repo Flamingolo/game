@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { fetchAllMobs, fetchMobById } from '../controller/mobController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -14,7 +15,7 @@ const router = Router();
  *       500:
  *         description: Failed to fetch mobs
  */
-router.get('/mobs', fetchAllMobs);
+router.get('/mobs', jwtMiddleware, fetchAllMobs);
 
 /**
  * @swagger
@@ -36,6 +37,6 @@ router.get('/mobs', fetchAllMobs);
  *       500:
  *         description: Failed to fetch mob
  */
-router.get('/mobs/:id', fetchMobById);
+router.get('/mobs/:id', jwtMiddleware, fetchMobById);
 
 export default router;

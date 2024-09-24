@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { fetchEncounterById, performEncounterAction } from '../controller/encounterController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -21,7 +22,7 @@ const router = Router();
  *       404:
  *         description: Encounter not found
  */
-router.get('/encounters/:id', fetchEncounterById);
+router.get('/encounters/:id', jwtMiddleware, fetchEncounterById);
 
 /**
  * @swagger
@@ -48,6 +49,6 @@ router.get('/encounters/:id', fetchEncounterById);
  *       400:
  *         description: Failed to perform action
  */
-router.post('/encounters/action', performEncounterAction);
+router.post('/encounters/action', jwtMiddleware, performEncounterAction);
 
 export default router;

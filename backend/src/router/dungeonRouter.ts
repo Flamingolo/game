@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { listAllDungeons, getDungeonById, enterDungeon } from '../controller/dungeonController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -14,7 +15,7 @@ const router = Router();
  *       500:
  *         description: Failed to fetch dungeons
  */
-router.get('/dungeons', listAllDungeons);
+router.get('/dungeons', jwtMiddleware, listAllDungeons);
 
 /**
  * @swagger
@@ -36,7 +37,7 @@ router.get('/dungeons', listAllDungeons);
  *       500:
  *         description: Failed to fetch dungeon
  */
-router.get('/dungeons/:id', getDungeonById);
+router.get('/dungeons/:id', jwtMiddleware, getDungeonById);
 
 /**
  * @swagger
@@ -62,6 +63,6 @@ router.get('/dungeons/:id', getDungeonById);
  *       500:
  *         description: Failed to enter dungeon
  */
-router.post('/dungeons/enter', enterDungeon);
+router.post('/dungeons/enter', jwtMiddleware, enterDungeon);
 
 export default router;

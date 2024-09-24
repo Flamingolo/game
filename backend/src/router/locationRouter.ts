@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { fetchLocationByCharacterId } from '../controller/locationController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -21,6 +22,6 @@ const router = Router();
  *       404:
  *         description: Location not found
  */
-router.get('/locations/:characterId', fetchLocationByCharacterId);
+router.get('/locations/:characterId', jwtMiddleware, fetchLocationByCharacterId);
 
 export default router;

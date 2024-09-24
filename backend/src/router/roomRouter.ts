@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { fetchRoomById, fetchRoomsByDungeonIdAndCharacterId, enterRoom } from '../controller/roomController';
+import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
 
@@ -21,7 +22,7 @@ const router = Router();
  *       404:
  *         description: Room not found
  */
-router.get('/rooms/:id', fetchRoomById);
+router.get('/rooms/:id', jwtMiddleware, fetchRoomById);
 
 /**
  * @swagger
@@ -47,7 +48,7 @@ router.get('/rooms/:id', fetchRoomById);
  *       500:
  *         description: Failed to fetch rooms
  */
-router.get('/rooms/:dungeonId/:characterId', fetchRoomsByDungeonIdAndCharacterId);
+router.get('/rooms/:dungeonId/:characterId', jwtMiddleware, fetchRoomsByDungeonIdAndCharacterId);
 
 /**
  * @swagger
@@ -73,6 +74,6 @@ router.get('/rooms/:dungeonId/:characterId', fetchRoomsByDungeonIdAndCharacterId
  *       500:
  *         description: Failed to enter room
  */
-router.post('/rooms/enter', enterRoom);
+router.post('/rooms/enter', jwtMiddleware, enterRoom);
 
 export default router;
