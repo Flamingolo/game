@@ -78,6 +78,44 @@ class CharacterService {
       throw new Error(`Error regenerating resources: ${error.message}`);
     }
   }
+
+  async spendTalentPoint(characterId: string, stat: string) {
+    try {
+      const character = await Character.findById(characterId);
+      if (!character) {
+        throw new Error('Character not found');
+      }
+
+      if (character.unspentTalentPoints <= 0) {
+        throw new Error('No unspent talent points available');
+      }
+
+      character.unspentTalentPoints -= 1;
+
+      switch (stat) {
+        case 'strength':
+          character.stats.strength += 1;
+          break;
+        case 'dexterity':
+          character.stats.dexterity += 1;
+          break;
+        case 'intellect':
+          character.stats.intellect += 1;
+          break;
+        case 'luck':
+          character.stats.luck += 1;
+          break;
+        default:
+          throw new Error('Invalid stat');
+      }
+
+      await character.save();
+
+      return character;
+    } catch (error) {
+      throw new Error(`Error spending talent point: ${error.message}`);
+    }
+  }
 }
 
 const characterServiceInstance = new CharacterService();

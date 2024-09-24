@@ -31,3 +31,14 @@ export const fetchCharacter = async (req: Request, res: Response) => {
       res.status(404).json({ error: 'Character not found', message: error.message });
     }
   };
+
+export const spendTalentPoint = async (req: Request, res: Response) => {
+  const { characterId, stat } = req.body;
+
+  try {
+    const character = await characterceInstance.spendTalentPoint(characterId, stat);
+    res.status(200).json(character);
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to spend talent point', message: error.message });
+  }
+};
