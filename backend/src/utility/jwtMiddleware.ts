@@ -1,27 +1,44 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import dotenv, { config } from 'dotenv';
 
 dotenv.config();
 
 const whitelistedEmails = ['olex@deez.nuts', 'ingo@deez.nuts'];
 
-const jwtMiddleware = (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
+interface JwtPayload {
+  id: string;
+  email: string;
+}
 
-  if (!token) {
-    return res.status(401).json({ error: 'Access denied. No token provided.' });
+
+export const jwtMiddleware = (req, res, next) => {
+  const publicRoutes = ['/users/login', '/users/register'];
+
+
+  if (publicRoutes.includes(req.path)) {
+    console.log(`path: ${req.path}`)
+    return next();
   }
+  const token = req.header('Authorization')?.split(' ')[1];
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!whitelistedEmails.includes(decoded.email)) {
-      return res.status(403).json({ error: 'Access denied. Email not whitelisted.' });
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+      console.log(`path: ${decoded.email}`)
+      if (whitelistedEmails.includes(decoded.email)) {
+        req.user = decoded;
+        console.log(`Bypassing authorization for ${decoded.email}`);
+        return next();
+      }
+
+      req.user = decoded;
+      return next();
+    } catch (error) {
+      return res.status(403).json({ message: 'Invalid Token' });
     }
-    req.user = decoded;
-    next();
-  } catch (ex) {
-    res.status(400).json({ error: 'Invalid token.' });
   }
+
+  return res.status(401).json({ message: 'Access Token Required' });
 };
 
 export default jwtMiddleware;
