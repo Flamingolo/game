@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { fetchCharacter, addCharacter } from '../controller/characterController';
+import { fetchCharacter, addCharacter, spendTalentPoint } from '../controller/characterController';
 import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
@@ -45,5 +45,30 @@ router.get('/characters/:id', jwtMiddleware, fetchCharacter);
  *         description: Failed to create character
  */
 router.post('/characters', jwtMiddleware, addCharacter);
+
+/**
+ * @swagger
+ * /characters/spend-talent-point:
+ *   post:
+ *     summary: Spend a talent point to increase a stat
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               characterId:
+ *                 type: string
+ *               stat:
+ *                 type: string
+ *                 enum: [strength, dexterity, intellect, luck]
+ *     responses:
+ *       200:
+ *         description: Talent point spent successfully
+ *       400:
+ *         description: Failed to spend talent point
+ */
+router.post('/characters/spend-talent-point', jwtMiddleware, spendTalentPoint);
 
 export default router;
