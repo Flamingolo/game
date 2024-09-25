@@ -48,6 +48,14 @@ class RoomService {
       throw new Error(`Error checking for mob in room: ${error.message}`);
     }
   }
+
+  async deleteRoomsByCharacterIdAndDungeonId(characterId: string, dungeonId: string) {
+    try {
+      await Room.deleteMany({ characterId, dungeonId });
+    } catch (error) {
+      throw new Error(`Error deleting rooms: ${error.message}`);
+    }
+  }
 }
 
 const roomServiceInstance = new RoomService();

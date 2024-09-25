@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { listAllDungeons, getDungeonById, enterDungeon } from '../controller/dungeonController';
+import { listAllDungeons, getDungeonById, enterDungeon, exitDungeon } from '../controller/dungeonController';
 import jwtMiddleware from '../utility/jwtMiddleware';
 
 const router = Router();
@@ -64,5 +64,29 @@ router.get('/dungeons/:id', jwtMiddleware, getDungeonById);
  *         description: Failed to enter dungeon
  */
 router.post('/dungeons/enter', jwtMiddleware, enterDungeon);
+
+/**
+ * @swagger
+ * /dungeons/exit:
+ *   post:
+ *     summary: Exit a dungeon
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dungeonId:
+ *                 type: string
+ *               characterId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successfully exited the dungeon
+ *       500:
+ *         description: Failed to exit dungeon
+ */
+router.post('/dungeons/exit', jwtMiddleware, exitDungeon);
 
 export default router;
