@@ -25,6 +25,14 @@ class LocationService {
       throw new Error(`Error updating character location: ${error.message}`);
     }
   }
+
+  async deleteCharacterLocationByCharacterId(characterId: string) {
+    try {
+      await Location.deleteOne({ CharacterId: characterId });
+    } catch (error) {
+      throw new Error(`Error deleting character location: ${error.message}`);
+    }
+  }
 }
 
 const locationServiceInstance = new LocationService();

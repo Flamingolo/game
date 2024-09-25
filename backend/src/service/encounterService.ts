@@ -83,6 +83,14 @@ class EncounterService {
       throw new Error(`Error performing encounter action: ${error.message}`);
     }
   };
+
+  async deleteEncountersByRoomIdAndCharacterId(characterId: string) {
+    try {
+      await Encounter.deleteMany({ CharacterId: characterId });
+    } catch (error) {
+      throw new Error(`Error deleting encounters: ${error.message}`);
+    }
+  }
 }
 
 const encounterServiceInstance = new EncounterService();

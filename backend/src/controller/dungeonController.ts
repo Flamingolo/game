@@ -5,6 +5,7 @@ import roomServiceInstance from '../service/roomService';
 import mobServiceInstance from '../service/mobService';
 import locationServiceInstance from '../service/locationService';
 import itemServiceInstance from '../service/itemService';
+import encounterServiceInstance from '../service/encounterService';
 
 export const listAllDungeons = async (req: Request, res: Response) => {
   try {
@@ -62,5 +63,19 @@ export const enterDungeon = async (req: Request, res: Response) => {
     res.status(200).json({ roomIds });
   } catch (error) {
     res.status(500).json({ error: 'Failed to enter dungeon', message: error.message });
+  }
+};
+
+export const exitDungeon = async (req: Request, res: Response) => {
+  const { dungeonId, characterId } = req.body;
+
+  try {
+    await roomServiceInstance.deleteRoomsByCharacterIdAndDungeonId(characterId, dungeonId);
+    await encounterServiceInstance.deleteEncountersByRoomIdAndCharacterId(characterId);
+    await locationServiceInstance.deleteCharacterLocationByCharacterId(characterId);
+
+    res.status(200).json({ message: 'Successfully exited the dungeon' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to exit dungeon', message: error.message });
   }
 };
