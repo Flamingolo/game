@@ -26,6 +26,10 @@ class EncounterService {
     }
   };
 
+  calculateCriticalHit(): boolean {
+    return Math.random() < 0.3;
+  }
+
   async performEncounterAction(encounterId: string, action: any) {
     try {
       const encounter = await Encounter.findById(encounterId);
@@ -57,6 +61,14 @@ class EncounterService {
 
         let mobDamage = (mob.baseDamage + mob.strength) - character.stats.armor;
         if (mobDamage < 0) mobDamage = 0;
+
+        if (this.calculateCriticalHit()) {
+          characterDamage *= 2;
+        }
+
+        if (this.calculateCriticalHit()) {
+          mobDamage *= 2;
+        }
 
         encounter.MobRemainingHealth -= characterDamage;
         if (encounter.MobRemainingHealth < 0) encounter.MobRemainingHealth = 0;
