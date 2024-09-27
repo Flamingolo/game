@@ -1,7 +1,6 @@
 import { Db } from 'mongodb';
 
 export async function up(db: Db) {
-  // Insert predefined items into the items collection
   // await db.collection('items').insertMany([
   //   { id: 1, name: 'Sword of Testing', dropChance: 10, value: 100, type: 'equipable' },
   //   { id: 2, name: 'Shield of Testing', dropChance: 15, value: 150, type: 'equipable' },
@@ -12,7 +11,6 @@ export async function up(db: Db) {
 }
 
 export async function down(db: Db) {
-  // Remove predefined items from the items collection
   // await db.collection('items').deleteMany({
   //   id: { $in: [1, 2, 3, 4, 5] }
   // });

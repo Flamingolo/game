@@ -17,11 +17,9 @@ import encounterRouter from './router/encounterRouter';
 import locationRouter from './router/locationRouter';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger';
-import jwt from 'express-jwt';
-import jsonwebtoken from 'jsonwebtoken';
 import ResourceRegenerationJob from './jobs/ResourceRegenerationJob';
 import jwtMiddleware from './utility/jwtMiddleware';
-import { executeChangelog } from './utility/changelogHelper'; // P946f
+import { executeChangelog } from './utility/changelogHelper';
 
 dotenv.config();
 
@@ -51,8 +49,7 @@ mongoose.connect(mongoUri)
     mobServiceInstance.saveGeneratedMobsToDatabase();
     dungeonServiceInstance.saveGeneratedDungeonsToDatabase();
 
-    // Execute changelogs
-    const db = mongoose.connection.db;
+    const db = mongoose.connection.db as any;
     const changelogs = [
       require('../changelog/001-initial-setup'),
       require('../changelog/002-level-initiation'),

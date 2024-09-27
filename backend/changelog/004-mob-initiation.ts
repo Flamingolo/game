@@ -1,7 +1,6 @@
 import { Db } from 'mongodb';
 
 export async function up(db: Db) {
-  // Insert predefined mobs into the mobs collection
   // await db.collection('mobs').insertMany([
   //   { id: 1, name: 'Goblin', itemIDs: null, levelID: 1, goldDrop: { min: 1, max: 5 }, resource: { health: 50, mana: 20 }, strength: 1, dexterity: 1, intellect: 1, baseDamage: 1, armor: 1 },
   //   { id: 2, name: 'Goblin Scout', itemIDs: null, levelID: 2, goldDrop: { min: 2, max: 6 }, resource: { health: 55, mana: 25 }, strength: 2, dexterity: 2, intellect: 2, baseDamage: 2, armor: 2 },
@@ -12,7 +11,6 @@ export async function up(db: Db) {
 }
 
 export async function down(db: Db) {
-  // Remove predefined mobs from the mobs collection
   // await db.collection('mobs').deleteMany({
   //   id: { $in: [1, 2, 3, 4, 5] }
   // });

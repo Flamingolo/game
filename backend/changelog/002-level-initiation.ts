@@ -1,7 +1,6 @@
 import { Db } from 'mongodb';
 
 export async function up(db: Db) {
-  // Insert predefined levels into the levels collection
   // await db.collection('levels').insertMany([
   //   { id: 1, expToLevel: 100 },
   //   { id: 2, expToLevel: 200 },
@@ -12,7 +11,6 @@ export async function up(db: Db) {
 }
 
 export async function down(db: Db) {
-  // Remove predefined levels from the levels collection
   // await db.collection('levels').deleteMany({
   //   id: { $in: [1, 2, 3, 4, 5] }
   // });

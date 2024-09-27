@@ -1,6 +1,7 @@
 import { Db } from 'mongodb';
 
 export async function executeChangelog(db: Db, changelog: any) {
+  console.log("executing changelog");
   const changelogCollection = db.collection('changelog');
   const changelogEntry = await changelogCollection.findOne({ name: changelog.name });
 
@@ -11,6 +12,7 @@ export async function executeChangelog(db: Db, changelog: any) {
 }
 
 export async function rollbackChangelog(db: Db, changelog: any) {
+  console.log("rolling back changelog");
   const changelogCollection = db.collection('changelog');
   const changelogEntry = await changelogCollection.findOne({ name: changelog.name });
 

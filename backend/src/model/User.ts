@@ -6,7 +6,6 @@ interface User extends Document {
   password: string;
   created: Date;
   deleted: Date | null;
-  // Add other necessary fields for registration
 }
 
 const UserSchema: Schema = new Schema({
@@ -15,7 +14,6 @@ const UserSchema: Schema = new Schema({
   password: { type: String, required: true },
   created: { type: Date, required: true, default: Date.now },
   deleted: { type: Date, default: null },
-  // Add other necessary fields for registration
 });
 
 const User = mongoose.model<User>('User', UserSchema);
