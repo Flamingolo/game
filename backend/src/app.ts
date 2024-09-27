@@ -20,7 +20,8 @@ import swaggerSpec from './swagger';
 import jwt from 'express-jwt';
 import jsonwebtoken from 'jsonwebtoken';
 import ResourceRegenerationJob from './jobs/ResourceRegenerationJob';
-import jwtMiddleware from './utility/jwtMiddleware'; // P6628
+import jwtMiddleware from './utility/jwtMiddleware';
+import { executeChangelog } from './utility/changelogHelper'; // P946f
 
 dotenv.config();
 
@@ -28,15 +29,15 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 
-app.use('/api', jwtMiddleware, characterRouter); // P210a
-app.use('/api', jwtMiddleware, itemouter); // P210a
+app.use('/api', jwtMiddleware, characterRouter);
+app.use('/api', jwtMiddleware, itemouter);
 app.use('/api', userRouter);
-app.use('/api', jwtMiddleware, mobRouter); // P210a
-app.use('/api', jwtMiddleware, dungeonRouter); // P210a
-app.use('/api', jwtMiddleware, inventoryRouter); // P210a
-app.use('/api', jwtMiddleware, roomRouter); // P210a
-app.use('/api', jwtMiddleware, encounterRouter); // P210a
-app.use('/api', jwtMiddleware, locationRouter); // P210a
+app.use('/api', jwtMiddleware, mobRouter);
+app.use('/api', jwtMiddleware, dungeonRouter);
+app.use('/api', jwtMiddleware, inventoryRouter);
+app.use('/api', jwtMiddleware, roomRouter);
+app.use('/api', jwtMiddleware, encounterRouter);
+app.use('/api', jwtMiddleware, locationRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
@@ -49,6 +50,20 @@ mongoose.connect(mongoUri)
     itemServiceInstance.generateRandomItems();
     mobServiceInstance.saveGeneratedMobsToDatabase();
     dungeonServiceInstance.saveGeneratedDungeonsToDatabase();
+
+    // Execute changelogs
+    const db = mongoose.connection.db;
+    const changelogs = [
+      require('../changelog/001-initial-setup'),
+      require('../changelog/002-level-initiation'),
+      require('../changelog/003-dungeon-initiation'),
+      require('../changelog/004-mob-initiation'),
+      require('../changelog/005-item-initiation')
+    ];
+
+    for (const changelog of changelogs) {
+      await executeChangelog(db, changelog);
+    }
   })
   .catch(err => {
     console.error(`Error connecting to MongoDB ${mongoUri}`, err);
