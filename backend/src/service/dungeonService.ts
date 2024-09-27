@@ -5,12 +5,16 @@ class DungeonService {
   generateRandomDungeon(id: number): any {
     const roomAmount = Math.floor(Math.random() * 3) + 3;
     const experience = Math.floor(Math.random() * 191) + 10;
+    const minMobLevel = Math.floor(Math.random() * 10) * 3 + 1;
+    const maxMobLevel = minMobLevel + 2;
 
     return {
       name: `Random Dungeon ${id}`,
       roomAmount,
       experience,
       endBossId: null,
+      minMobLevel,
+      maxMobLevel,
     };
   }
 

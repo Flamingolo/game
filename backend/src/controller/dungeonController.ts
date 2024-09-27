@@ -45,7 +45,7 @@ export const enterDungeon = async (req: Request, res: Response) => {
 
     for (const room of rooms) {
       const randomItem = await itemServiceInstance.getRandomItem();
-      const randomMob = await mobServiceInstance.getRandomMob();
+      const randomMob = await mobServiceInstance.getRandomMob(dungeon.minMobLevel, dungeon.maxMobLevel);
 
       const roomData = {
         characterId,

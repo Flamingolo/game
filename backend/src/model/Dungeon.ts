@@ -5,6 +5,8 @@ interface Dungeon extends Document {
   roomAmount: number;
   experience: number;
   endBossId: mongoose.Schema.Types.ObjectId | null;
+  minMobLevel: number;
+  maxMobLevel: number;
 }
 
 const DungeonSchema: Schema = new Schema({
@@ -12,6 +14,8 @@ const DungeonSchema: Schema = new Schema({
   roomAmount: { type: Number, required: true, min: 3, max: 5 },
   experience: { type: Number, required: true, min: 10, max: 200 },
   endBossId: { type: mongoose.Schema.Types.ObjectId, default: null },
+  minMobLevel: { type: Number, required: true },
+  maxMobLevel: { type: Number, required: true },
 });
 
 const Dungeon = mongoose.model<Dungeon>('Dungeon', DungeonSchema);
