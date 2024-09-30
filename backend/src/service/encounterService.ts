@@ -1,6 +1,7 @@
 import Encounter from '../model/Encounter';
 import characterServiceInstance from './characterService';
 import mobServiceInstance from './mobService';
+import levelServiceInstance from './levelService';
 
 class EncounterService {
 
@@ -78,6 +79,11 @@ class EncounterService {
 
         await encounter.save();
         await character.save();
+
+        if (encounter.MobRemainingHealth === 0) {
+          const experienceGain = levelServiceInstance.calculateExperienceGain(character.progress.level, mob.levelID);
+          await characterServiceInstance.updateCharacterProgress(character.id, experienceGain);
+        }
 
         return {
           encounter,
