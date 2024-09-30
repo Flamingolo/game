@@ -82,7 +82,7 @@ class EncounterService {
 
         if (encounter.MobRemainingHealth === 0) {
           const experienceGain = levelServiceInstance.calculateExperienceGain(character.progress.level, mob.levelID);
-          await levelServiceInstance.updateCharacterProgress(character._id, experienceGain);
+          await characterServiceInstance.updateCharacterProgress(character.id, experienceGain);
         }
 
         return {

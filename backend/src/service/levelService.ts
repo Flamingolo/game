@@ -34,32 +34,6 @@ class LevelService {
     return Math.max(0, experienceGain);
   }
 
-  async updateCharacterProgress(characterId: string, experienceGain: number) {
-    const character = await Character.findById(characterId);
-    if (!character) {
-      throw new Error('Character not found');
-    }
-
-    character.progress.experience += experienceGain;
-
-    const currentLevel = await Level.findOne({ id: character.progress.level });
-    if (!currentLevel) {
-      throw new Error('Current level not found');
-    }
-
-    while (character.progress.experience >= currentLevel.expToLevel) {
-      character.progress.experience -= currentLevel.expToLevel;
-      character.progress.level += 1;
-      character.unspentTalentPoints += 1;
-
-      const nextLevel = await Level.findOne({ id: character.progress.level });
-      if (!nextLevel) {
-        break;
-      }
-    }
-
-    await character.save();
-  }
 }
 
 const levelServiceInstance = new LevelService();
