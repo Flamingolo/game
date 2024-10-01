@@ -10,7 +10,8 @@ const midLevelMobNames = [
 ];
 
 class MobService {
-  generateRandomNamedMob(id: number, levelID: number): any {
+  generateRandomNamedMob(id: number, minMobLevel: number, maxMobLevel: number): any {
+    const levelID = Math.floor(Math.random() * (maxMobLevel - minMobLevel + 1)) + minMobLevel;
     const mobNames = levelID <= 15 ? lowLevelMobNames : midLevelMobNames;
     const randomName = mobNames[Math.floor(Math.random() * mobNames.length)];
 
@@ -38,8 +39,9 @@ class MobService {
   generateRandomNamedMobs() {
     const mobs = [];
     for (let i = 1; i <= 20; i++) {
-      const levelID = i <= 10 ? Math.floor(Math.random() * 15) + 1 : Math.floor(Math.random() * 5) + 15;
-      mobs.push(this.generateRandomNamedMob(i, levelID));
+      const minMobLevel = Math.floor(Math.random() * 10) * 3 + 1;
+      const maxMobLevel = minMobLevel + 2;
+      mobs.push(this.generateRandomNamedMob(i, minMobLevel, maxMobLevel));
     }
     return mobs;
   }
