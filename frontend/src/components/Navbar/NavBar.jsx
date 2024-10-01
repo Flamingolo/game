@@ -5,11 +5,11 @@ import { towns, dungeons, mobs } from './dummyData';
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-800 text-white p-4">
-      <div className="flex flex-row justify-center space-x-4">
-        
+    <nav className="bg-black-ui text-gold-ui p-4">
+      <div className="flex flex-row space-x-4 justify-center">
+
         <div>
-          <Button label="Home" onClick={() => console.log('Home clicked')} className="bg-blue-500 hover:bg-blue-600" />
+          <Button label="Home" onClick={() => console.log('Home clicked')} className="bg-red-ui hover:bg-red-ui-900" />
         </div>
 
         <div className="relative">
@@ -18,7 +18,7 @@ const Navbar = () => {
               <div key={dungeon.id} className="p-1">{dungeon.name}</div>
             ))}
           >
-            <Button label="Dungeons" className="bg-purple-500 hover:bg-purple-600" />
+            <Button label="Dungeons" className="bg-red-ui hover:bg-red-ui-900" />
           </Tooltip>
         </div>
 
@@ -28,7 +28,7 @@ const Navbar = () => {
               <div key={town.id} className="p-1">{town.name}</div>
             ))}
           >
-            <Button label="Towns" className="bg-green-500 hover:bg-green-600" />
+            <Button label="Towns" className="bg-red-ui hover:bg-red-ui-900" />
           </Tooltip>
         </div>
 
@@ -38,7 +38,7 @@ const Navbar = () => {
               <div key={mob.id} className="p-1">{mob.name}</div>
             ))}
           >
-            <Button label="Mobs" className="bg-red-500 hover:bg-red-600" />
+            <Button label="Mobs" className="bg-red-ui hover:bg-red-ui-900" />
           </Tooltip>
         </div>
 
