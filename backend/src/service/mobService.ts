@@ -56,12 +56,11 @@ class MobService {
     }
   }
 
-  async getRandomMob() {
+  async getRandomMob(minMobLevel: number, maxMobLevel: number) {
     try {
-      const count = await Mob.countDocuments();
-      const random = Math.floor(Math.random() * count);
-      const mob = await Mob.findOne().skip(random);
-      return mob;
+      const mobs = await Mob.find({ levelID: { $gte: minMobLevel, $lte: maxMobLevel } });
+      const randomIndex = Math.floor(Math.random() * mobs.length);
+      return mobs[randomIndex];
     } catch (error) {
       console.error(`Error retrieving random mob: ${error.message}`);
       throw error;
