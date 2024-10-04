@@ -1,9 +1,7 @@
 import Level from '../model/Level';
-import characterServiceInstance from './characterService';
-import Character from '../model/Character';
-import Mob from '../model/Mob';
 
 const LEVELS_COUNT = 20;
+const BASE_EXPERIENCE = 100;
 
 class LevelService {
   async createPredefinedLevels() {
@@ -12,7 +10,7 @@ class LevelService {
     for (let i = 1; i <= LEVELS_COUNT; i++) {
       levels.push({
         id: i,
-        expToLevel: i * 100,
+        expToLevel: i * BASE_EXPERIENCE,
       });
     }
 
@@ -21,9 +19,8 @@ class LevelService {
   }
 
   calculateExperienceGain(characterLevel: number, mobLevel: number): number {
-    const baseExperience = 100;
     const levelDifference = mobLevel - characterLevel;
-    let experienceGain = baseExperience * mobLevel;
+    let experienceGain = BASE_EXPERIENCE * mobLevel;
 
     if (levelDifference > 0) {
       experienceGain *= 1 + (levelDifference * 0.2);
