@@ -33,9 +33,9 @@ class DungeonService {
     }
   }
 
-  async getDungeonById(dungeonId: string) {
+  async getDungeonById(id: string) {
     try {
-      const dungeon = await Dungeon.findById(dungeonId);
+      const dungeon = await Dungeon.findById(id);
       if (!dungeon) {
         throw new Error('Dungeon not found');
       }

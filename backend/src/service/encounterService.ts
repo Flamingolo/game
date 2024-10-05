@@ -31,9 +31,9 @@ class EncounterService {
     return Math.random() < 0.3;
   }
 
-  async performEncounterAction(encounterId: string, action: any) {
+  async performEncounterAction(id: string, action: any) {
     try {
-      const encounter = await Encounter.findById(encounterId);
+      const encounter = await Encounter.findById(id);
       if (!encounter) {
         throw new Error('Encounter not found');
       }

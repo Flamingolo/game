@@ -37,9 +37,9 @@ class RoomService {
     return room;
   }
 
-  async checkIfMobIsPresent(roomId: string) {
+  async checkIfMobIsPresent(id: string) {
     try {
-      const room = await Room.findById(roomId);
+      const room = await Room.findById(id);
       if (!room) {
         throw new Error('Room not found');
       }

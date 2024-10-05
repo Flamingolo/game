@@ -79,9 +79,9 @@ class CharacterService {
     }
   }
 
-  async spendTalentPoint(characterId: string, stat: string) {
+  async spendTalentPoint(id: string, stat: string) {
     try {
-      const character = await Character.findById(characterId);
+      const character = await Character.findById(id);
       if (!character) {
         throw new Error('Character not found');
       }
@@ -117,8 +117,8 @@ class CharacterService {
     }
   }
 
-  async updateCharacterProgress(characterId: string, experienceGain: number) {
-    const character = await Character.findById(characterId);
+  async updateCharacterProgress(id: string, experienceGain: number) {
+    const character = await Character.findById(id);
     if (!character) {
       throw new Error('Character not found');
     }

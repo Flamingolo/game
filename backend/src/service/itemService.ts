@@ -1,5 +1,4 @@
 import Item from '../model/Item';
-import mongoose from 'mongoose';
 
 const generateRandomItem = (id: number): any => {
     const itemTypes: Array<'equipable' | 'consumable'> = ['equipable', 'consumable'];
@@ -28,7 +27,7 @@ class ItemService {
 
     async getItem(id: string) {
         try {
-            const item = await Item.findById(new mongoose.Types.ObjectId(id));
+            const item = await Item.findById(id);
             if (!item) {
                 throw new Error('Item not found');
             }
