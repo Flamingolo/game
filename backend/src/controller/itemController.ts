@@ -3,6 +3,7 @@ import itemServiceInstance from '../service/itemService';
 import roomServiceInstance from '../service/roomService';
 import encounterServiceInstance from '../service/encounterService';
 import inventoryServiceInstance from '../service/inventoryService';
+import mobServiceInstance from '../service/mobService';
 
 class ItemController {
     constructor(private itemService: typeof itemServiceInstance) { }
@@ -21,26 +22,26 @@ class ItemController {
         const { encounterId, mobId, roomId, characterId } = req.body;
 
         try {
-            let itemId;
+            let itemIds :string[];
 
             if (roomId) {
                 const room = await roomServiceInstance.getRoomById(roomId);
                 if (!room) {
                     return res.status(404).json({ message: 'Room not found' });
                 }
-                itemId = room.itemId;
+                itemIds.push(room.itemId.toString());
             } else if (mobId) {
                 const encounter = await encounterServiceInstance.getEncounterById(encounterId);
                 if (!encounter || encounter.MobRemainingHealth > 0) {
                     return res.status(400).json({ message: 'Cannot collect item, mob is not dead' });
                 }
                 const mob = await mobServiceInstance.getMobById(mobId);
-                itemId = mob.itemId;
+                itemIds.push(mob.itemIDs.toString());
             } else {
                 return res.status(400).json({ message: 'Invalid request' });
             }
-
-            await inventoryServiceInstance.addItemToInventory(characterId, itemId);
+            
+            inventoryServiceInstance.saveItem(characterId, itemIds);
             res.status(200).json({ message: 'Item collected successfully' });
         } catch (error) {
             res.status(500).json({ message: error.message });

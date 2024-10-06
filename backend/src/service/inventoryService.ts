@@ -9,7 +9,14 @@ class InventoryService {
       throw new Error(`Error retrieving inventory for characterId ${characterId}: ${error.message}`);
     }
   };
-}
+
+  async saveItem(characterId: string, itemIds: string[]) {
+    itemIds.forEach((id: string) => {
+      const inventory = new Inventory(characterId, id);
+      inventory.save();
+    });
+  }
+};
 
 const inventoryServiceInstance = new InventoryService();
 export default inventoryServiceInstance;
