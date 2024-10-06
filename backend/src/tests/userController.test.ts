@@ -1,89 +1,102 @@
-import { registerUser, loginUser } from '../controller/userController';
-import mongoose from 'mongoose';
-import User from '../model/User';
+import request from 'supertest';
+import express, { Application } from 'express';
+import * as userController from '../controller/userController';
+import userServiceInstance from '../service/userService'; // Default import
+import jsonwebtoken from 'jsonwebtoken';
+
+jest.mock('../service/userService', () => ({
+  __esModule: true,
+  default: {
+    createUser: jest.fn(),
+    authenticateUser: jest.fn(),
+  },
+}));
+
+jest.mock('jsonwebtoken', () => ({
+  sign: jest.fn(),
+}));
+
+const app: Application = express();
+app.use(express.json());
+app.post('/register', userController.registerUser);
+app.post('/login', userController.loginUser);
 
 describe('UserController', () => {
-  let req, res;
-
-  beforeAll(async () => {
-    const mongoUri = process.env.MONGO_URI || `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}?authSource=admin`;
-    await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
-  });
-
-  afterAll(async () => {
-    await mongoose.connection.db.dropDatabase();
-    await mongoose.disconnect();
-  });
-
-  beforeEach(() => {
-    req = {
-      body: {},
-    };
-    res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    };
-  });
-
   describe('registerUser', () => {
-    it('should register a user successfully', async () => {
-      req.body = { email: 'test@example.com', password: 'password123' };
+    it('should register a user and return 201 status with user data', async () => {
+      const mockUser = { id: 1, email: 'test@example.com' };
+      (userServiceInstance.createUser as jest.Mock).mockResolvedValue(mockUser);
 
-      await registerUser(req, res);
+      const response = await request(app)
+        .post('/register')
+        .send({ email: 'test@example.com', password: 'password123' });
 
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ email: 'test@example.com' }));
-
-      const user = await User.findOne({ email: 'test@example.com' });
-      expect(user).not.toBeNull();
+      expect(response.status).toBe(201);
+      expect(response.body).toEqual(mockUser);
+      expect(userServiceInstance.createUser).toHaveBeenCalledWith('test@example.com', 'password123');
     });
 
-    it('should return 500 if registration fails', async () => {
-      req.body = { email: 'test@example.com', password: 'password123' };
+    it('should return 500 status if user registration fails', async () => {
+      (userServiceInstance.createUser as jest.Mock).mockRejectedValue(new Error('Registration error'));
 
-      jest.spyOn(User.prototype, 'save').mockImplementationOnce(() => {
-        throw new Error('Failed to register user');
+      const response = await request(app)
+        .post('/register')
+        .send({ email: 'test@example.com', password: 'password123' });
+
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({
+        error: 'Failed to register user',
+        message: 'Registration error',
       });
-
-      await registerUser(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Failed to register user', message: 'Failed to register user' });
     });
   });
 
   describe('loginUser', () => {
-    it('should login a user successfully', async () => {
-      req.body = { email: 'test@example.com', password: 'password123' };
+    it('should authenticate user and return a JWT token', async () => {
+      const mockUser = { id: 1, email: 'test@example.com' };
+      const mockToken = 'mock-jwt-token';
+      (userServiceInstance.authenticateUser as jest.Mock).mockResolvedValue(mockUser);
+      (jsonwebtoken.sign as jest.Mock).mockReturnValue(mockToken);
 
-      await registerUser(req, res);
+      const response = await request(app)
+        .post('/login')
+        .send({ email: 'test@example.com', password: 'password123' });
 
-      await loginUser(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ token: expect.any(String) }));
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ token: mockToken });
+      expect(userServiceInstance.authenticateUser).toHaveBeenCalledWith('test@example.com', 'password123');
+      expect(jsonwebtoken.sign).toHaveBeenCalledWith(
+        { id: mockUser.id, email: mockUser.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
     });
 
-    it('should return 401 if authentication fails', async () => {
-      req.body = { email: 'test@example.com', password: 'wrongpassword' };
+    it('should return 401 status if authentication fails', async () => {
+      (userServiceInstance.authenticateUser as jest.Mock).mockResolvedValue(null);
 
-      await loginUser(req, res);
+      const response = await request(app)
+        .post('/login')
+        .send({ email: 'invalid@example.com', password: 'invalidpassword' });
 
-      expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Invalid email or password' });
-    });
-
-    it('should return 500 if login fails', async () => {
-      req.body = { email: 'test@example.com', password: 'password123' };
-
-      jest.spyOn(User, 'findOne').mockImplementationOnce(() => {
-        throw new Error('Failed to login');
+      expect(response.status).toBe(401);
+      expect(response.body).toEqual({
+        error: 'Invalid email or password',
       });
+    });
 
-      await loginUser(req, res);
+    it('should return 500 status if login fails due to server error', async () => {
+      (userServiceInstance.authenticateUser as jest.Mock).mockRejectedValue(new Error('Authentication error'));
 
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Failed to login', message: 'Failed to login' });
+      const response = await request(app)
+        .post('/login')
+        .send({ email: 'test@example.com', password: 'password123' });
+
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({
+        error: 'Failed to login',
+        message: 'Authentication error',
+      });
     });
   });
 });
