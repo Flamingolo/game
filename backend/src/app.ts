@@ -55,7 +55,8 @@ mongoose.connect(mongoUri)
       require('../changelog/002-level-initiation'),
       require('../changelog/003-dungeon-initiation'),
       require('../changelog/004-mob-initiation'),
-      require('../changelog/005-item-initiation')
+      require('../changelog/005-item-initiation'),
+      require('../changelog/006-vendor-initiation')
     ];
 
     for (const changelog of changelogs) {
