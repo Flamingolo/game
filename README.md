@@ -15,3 +15,6 @@ npx tsc
 
 # Run the compiled JavaScript
 npm run serve
+
+http://localhost:3000/api-docs/#/default/post_users_login
+http://localhost:8081/db/test/
